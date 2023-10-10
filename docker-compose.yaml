@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  localstack:
+    container_name: "localstack"
+    image: localstack/localstack:2.3.2
+    network_mode: bridge
+    ports:
+      - "4510-4559:4510-4559"  
+      - "4566:4566"           
+    environment:
+      - SERVICES=s3
+      - DEBUG=${DEBUG-}
+      - PERSISTENCE=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}            
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}        
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    volumes:
+      - "./localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
